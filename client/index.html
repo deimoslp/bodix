@@ -1,0 +1,110 @@
+<html>
+<head>
+<script type="text/javascript" src="jquery-1.8.2.min.js"></script>
+</head>
+<body>
+<canvas style="border:1px black solid" id="exemple" width="800" height="600">
+  Affichage d'un texte pour les navigateurs qui ne supportent pas canvas.
+</canvas>
+<script type="text/javascript">
+  var exemple = $('#exemple');
+  var context = exemple[0]	.getContext('2d');
+  
+  
+  var r1Left = 30;
+  var r2Left = 600;
+  var rTop = 30;
+  var rSize = 50;
+  
+  
+  
+  
+  
+  var iteration = 0;
+  function createCustomPattern(){
+	  // set up a pattern
+	var pattern = document.createElement('canvas');
+	pattern.width = 100;
+	pattern.height = 10;
+	var rectWidth = pattern.width;
+	var pctx = pattern.getContext('2d');
+	
+	// white background
+	//pctx.fillStyle = "rgb(255,255,255)";
+	//pctx.fillRect(0, 0, pattern.width, pattern.height);
+	
+	var gradient = pctx.createLinearGradient(iteration, 0, iteration + pattern.width, 0);
+	gradient.addColorStop(0, "rgb(255,0,0)");
+	gradient.addColorStop(0.5, "rgb(255,150,150)");
+	gradient.addColorStop(1, "rgb(255,0,0)");
+	pctx.fillStyle = gradient;
+	
+	pctx.fillRect(iteration, 0, pattern.width, pattern.height);
+	
+	var gradient = pctx.createLinearGradient(iteration - pattern.width, 0, iteration, 0);
+	gradient.addColorStop(0, "rgb(255,0,0)");
+	gradient.addColorStop(0.5, "rgb(255,150,150)");
+	gradient.addColorStop(1, "rgb(255,0,0)");
+	pctx.fillStyle = gradient;
+	pctx.fillRect(iteration - pattern.width, 0, pattern.width, pattern.height);
+	
+	iteration = (iteration + 9)%(pattern.width);
+	return pattern;
+  }
+  
+  
+  function drawFlow(){
+	context.save();
+	//context.translate(context.canvas.width/2, context.canvas.height/2);
+	// white background
+	context.fillStyle = "rgb(255,255,255)";
+	context.fillRect(0, 0, 800, 600);
+	
+	context.strokeStyle = "rgb(255, 0, 0)";
+	context.lineWidth = 3;
+	context.fillStyle = "rgb(255,150,150)";
+	context.strokeRect(r1Left, rTop, rSize, rSize);
+	context.fillRect(r1Left, rTop, rSize, rSize);
+
+	context.strokeRect(r2Left, rTop, rSize, rSize);
+	context.fillRect(r2Left, rTop, rSize, rSize);
+	
+	context.beginPath();
+	context.lineWidth = 5;
+	
+	
+	context.beginPath();
+	context.moveTo(r1Left + rSize/2, rTop + rSize/2);
+	//context.lineTo(r2Left + rSize/2, rTop+ rSize/2);
+	context.strokeStyle = context.createPattern(createCustomPattern(), "repeat");;
+	context.lineWidth = 10;
+	context.bezierCurveTo(50,
+						  300,
+						  600,
+						  300,
+						  r2Left + rSize/2, rTop+ rSize/2);
+	context.stroke();
+	/*context.scale(0.9, 0.9);
+	context.translate(-context.canvas.width/2, -context.canvas.height/2);
+	context.beginPath();
+	context.lineWidth = 5 + Math.random() * 10;
+	context.moveTo(lastX, lastY);
+	lastX = context.canvas.width * Math.random();
+	lastY = context.canvas.height * Math.random();
+	context.bezierCurveTo(context.canvas.width * Math.random(),
+						  context.canvas.height * Math.random(),
+						  context.canvas.width * Math.random(),
+						  context.canvas.height * Math.random(),
+						  lastX, lastY);
+	hue = hue + 10 * Math.random();
+	context.strokeStyle = "hsl(" + hue + ", 50%, 50%)";
+	context.shadowColor = "white";
+	context.shadowBlur = 10;
+	context.stroke();*/
+	context.restore();
+  }
+  
+  setInterval(drawFlow, 20);
+</script>
+</body>
+</html>
