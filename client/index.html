@@ -16,9 +16,9 @@
   var context = exemple[0]	.getContext('2d');
   
   
-  var r1Left = 30;
+  var r1Left = 100;
   var r2Left = 600;
-  var rTop = 30;
+  var rTop = 50;
   var rSize = 50;
   
   
@@ -58,12 +58,18 @@
   }
   
   var c = new corridor([ 
-		[r1Left + rSize, rTop + rSize/2],
-		[r1Left + 400, rTop + rSize/2],
+		[r1Left + rSize/2, rTop],
+		[r1Left + 400, rTop],
 		[r1Left + 400, rTop + 300],
-		[r1Left + rSize/2, rTop + 300],
-		[r1Left + rSize/2, rTop + rSize]
+        [300, 460],
+		[r1Left, rTop + 300],
+		[r1Left, rTop + rSize/2]
 	]);
+    
+  /*  var c = new corridor([ 
+		[r1Left + rSize, rTop + rSize/2],
+        [300, 460],
+	]);*/
 	
   function drawFlow(){
 	context.save();
@@ -71,20 +77,35 @@
 	// white background
 	context.fillStyle = "rgb(255,255,255)";
 	context.fillRect(0, 0, 800, 600);
+    
+    // paths
+    c.draw(context);
 	
-	
+    
+	context.strokeStyle="rgb(255,0,0)";
+    context.lineWidth="1";
 	context.fillStyle = "rgb(255,150,150)";
-	
+    
+   
 	// rectangle 1
-	//context.strokeRect(r1Left, rTop, rSize, rSize);
-	//context.fillRect(r1Left, rTop, rSize, rSize);
+    context.fillRect(r1Left - rSize/2, rTop - rSize/2, rSize, rSize);
+	context.strokeRect(r1Left - rSize/2, rTop - rSize/2, rSize, rSize);
+	
 
 	
-	c.draw(context);
+	
 	
 	context.restore();
   }
   
+  var bigHeart = false;
+  function changeHeartSize(){
+      rSize = bigHeart?rSize - 10: rSize + 10;
+      bigHeart = !bigHeart;
+  }
+    
+  
+  setInterval(changeHeartSize,500);
   setInterval(drawFlow, 20);
 </script>
 </body>
