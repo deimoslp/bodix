@@ -1,104 +1,91 @@
+<!DOCTYPE html>
 <html>
-    <head>
-        <script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
-        <script type="text/javascript" src="js/flow.js"></script>
-    </head>
-    <body>
-        <canvas style="border:1px black solid" id="exemple" width="800" height="600">
-            Affichage d'un texte pour les navigateurs qui ne supportent pas canvas.
-        </canvas>
-        <script type="text/javascript">
-            var exemple = $('#exemple');
-            var context = exemple[0].getContext('2d');
-  
-  
-            var r1Left = 30;
-            var r2Left = 600;
-            var rTop = 30;
-            var rSize = 50;
-  
-            var iteration = 0;
-            
-            
-            var basicFlow = new flow([[r1Left + rSize, rTop + rSize/2],
-            [r2Left , rTop + rSize/2  ],
-            [r2Left+1, rTop + 200],
-            [r2Left-200, rTop + 200],
-            [r2Left-200+1, rTop + 300],
-            [r1Left + rSize/2, rTop + 300],
-            [r1Left + rSize/2, rTop + 300],
-            [r1Left + rSize/2, rTop + rSize]]);
- 
-            function createCustomPattern(){
-                // set up a pattern
-                var pattern = document.createElement('canvas');
-                pattern.width = 100;
-                pattern.height = 10;
-                var rectWidth = pattern.width;
-                var pctx = pattern.getContext('2d');
-	
-                // white background
-                //pctx.fillStyle = "rgb(255,255,255)";
-                //pctx.fillRect(0, 0, pattern.width, pattern.height);
-	
-                var gradient = pctx.createLinearGradient(iteration, 0, iteration + pattern.width, 0);
-                gradient.addColorStop(0, "rgb(255,0,0)");
-                gradient.addColorStop(0.5, "rgb(255,150,150)");
-                gradient.addColorStop(1, "rgb(255,0,0)");
-                pctx.fillStyle = gradient;
-	
-                pctx.fillRect(iteration, 0, pattern.width, pattern.height);
-	
-                var gradient = pctx.createLinearGradient(iteration - pattern.width, 0, iteration, 0);
-                gradient.addColorStop(0, "rgb(255,0,0)");
-                gradient.addColorStop(0.5, "rgb(255,150,150)");
-                gradient.addColorStop(1, "rgb(255,0,0)");
-                pctx.fillStyle = gradient;
-                pctx.fillRect(iteration - pattern.width, 0, pattern.width, pattern.height);
-	
-                iteration = (iteration + 9)%(pattern.width);
-                return pattern;
-            }
-  
-            function drawFlow(){
-                context.save();
+<head>
 
-                // white background
-                context.fillStyle = "rgb(255,255,255)";
-                context.fillRect(0, 0, 800, 600);
-	
-                context.strokeStyle = "rgb(255, 0, 0)";
-                context.lineWidth = 3;
-                context.fillStyle = "rgb(255,150,150)";
-        
-                // Rectangle 1
-//                context.strokeRect(r1Left, rTop, rSize, rSize);
-//                context.fillRect(r1Left, rTop, rSize, rSize);
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
 
-                // Rectangle 2
-             /*   context.strokeRect(r2Left, rTop, rSize, rSize);
-                context.fillRect(r2Left, rTop, rSize, rSize);
-                */
-	
-                // bezier flow
-//                context.beginPath();
-//                context.moveTo(r1Left + rSize/2, rTop + rSize/2);
-//                context.strokeStyle = context.createPattern(createCustomPattern(), "repeat");
-//                context.lineWidth = 10;
-//                context.bezierCurveTo(50,300, 600, 300, r2Left + rSize/2, rTop+ rSize/2);
-//                context.stroke();
-
-
-                context.lineWidth = 2;
-                context.strokeStyle = context.createPattern(createCustomPattern(), "repeat");
-             
-                
-                basicFlow.draw(context);
-	
-                context.restore();
-            }
+<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="js/corridor.js"></script>
+</head>
+<body>
+<canvas style="border:1px black solid" id="exemple" width="800" height="600">
+  Affichage d'un texte pour les navigateurs qui ne supportent pas canvas.
+</canvas>
+<script type="text/javascript">
+  var exemple = $('#exemple');
+  var context = exemple[0]	.getContext('2d');
   
-            setInterval(drawFlow, 20);
-        </script>
-    </body>
+  
+  var r1Left = 30;
+  var r2Left = 600;
+  var rTop = 30;
+  var rSize = 50;
+  
+  
+  
+  
+  
+  var iteration = 0;
+  function createCustomPattern(){
+	  // set up a pattern
+	var pattern = document.createElement('canvas');
+	pattern.width = 100;
+	pattern.height = 10;
+	var rectWidth = pattern.width;
+	var pctx = pattern.getContext('2d');
+	
+	// white background
+	//pctx.fillStyle = "rgb(255,255,255)";
+	//pctx.fillRect(0, 0, pattern.width, pattern.height);
+	
+	var gradient = pctx.createLinearGradient(iteration, 0, iteration + pattern.width, 0);
+	gradient.addColorStop(0, "rgb(255,0,0)");
+	gradient.addColorStop(0.5, "rgb(255,150,150)");
+	gradient.addColorStop(1, "rgb(255,0,0)");
+	pctx.fillStyle = gradient;
+	
+	pctx.fillRect(iteration, 0, pattern.width, pattern.height);
+	
+	var gradient = pctx.createLinearGradient(iteration - pattern.width, 0, iteration, 0);
+	gradient.addColorStop(0, "rgb(255,0,0)");
+	gradient.addColorStop(0.5, "rgb(255,150,150)");
+	gradient.addColorStop(1, "rgb(255,0,0)");
+	pctx.fillStyle = gradient;
+	pctx.fillRect(iteration - pattern.width, 0, pattern.width, pattern.height);
+	
+	iteration = (iteration + 9)%(pattern.width);
+	return pattern;
+  }
+  
+  var c = new corridor([ 
+		[r1Left + rSize, rTop + rSize/2],
+		[r1Left + 400, rTop + rSize/2],
+		[r1Left + 400, rTop + 300],
+		[r1Left + rSize/2, rTop + 300],
+		[r1Left + rSize/2, rTop + rSize]
+	]);
+	
+  function drawFlow(){
+	context.save();
+
+	// white background
+	context.fillStyle = "rgb(255,255,255)";
+	context.fillRect(0, 0, 800, 600);
+	
+	
+	context.fillStyle = "rgb(255,150,150)";
+	
+	// rectangle 1
+	//context.strokeRect(r1Left, rTop, rSize, rSize);
+	//context.fillRect(r1Left, rTop, rSize, rSize);
+
+	
+	c.draw(context);
+	
+	context.restore();
+  }
+  
+  setInterval(drawFlow, 20);
+</script>
+</body>
 </html>
