@@ -1,6 +1,8 @@
 
 var width = 5;
 
+ 
+
 function corridor(points){
 	
 	this.points = points;
@@ -61,21 +63,32 @@ function corridor(points){
 	this.pointsL[points.length-1] = computePointOnLine(ortho, points[points.length-1], + width);
 	this.pointsR[points.length-1] = computePointOnLine(ortho, points[points.length-1], - width);
 }
-
+  
+  
 corridor.prototype.draw = function(ctx){
-	
-	context.strokeStyle = "rgb(255, 200, 200)";
-	context.lineWidth = width*2;
+    
+	ctx.strokeStyle = "rgb(255, 200, 200)";
+    
+	ctx.lineWidth = width*2;
 	drawPoints(ctx, this.points);
 	
-	context.strokeStyle = "rgb(255, 0, 0)";
-	context.lineWidth = 1;
+	ctx.strokeStyle = "rgb(255, 0, 0)";
+	ctx.lineWidth = 1;
 	drawPoints(ctx, this.pointsL);
 	
-    context.strokeStyle = "rgb(255, 0, 0)";
-	context.lineWidth = 1;
+    ctx.strokeStyle = "rgb(255, 0, 0)";
+	ctx.lineWidth = 1;
 	drawPoints(ctx, this.pointsR);
 };
+
+corridor.prototype.fillFlowGradient = function(ctx, p){
+    ctx.beginPath();
+	ctx.moveTo(p[0][0], p[0][1]);
+	for(var k=1; k<p.length; k++){
+		ctx.lineTo(p[k][0], p[k][1]);
+	}
+	ctx.stroke();
+}
 
 function drawPoints(ctx, p){
 	ctx.beginPath();

@@ -58,18 +58,14 @@
   }
   
   var c = new corridor([ 
-		[r1Left + rSize/2, rTop],
-		[r1Left + 400, rTop],
-		[r1Left + 400, rTop + 300],
-        [300, 460],
-		[r1Left, rTop + 300],
-		[r1Left, rTop + rSize/2]
+		[r1Left + rSize/2 , rTop+1/2],
+		[r1Left + 400+1/2, rTop+1/2],
+		[r1Left + 400+1/2, rTop + 300],
+        [300+1/2, 460+1/2],
+		[r1Left+1/2, rTop + 300+1/2],
+		[r1Left+1/2, rTop + rSize/2+1/2]
 	]);
-    
-  /*  var c = new corridor([ 
-		[r1Left + rSize, rTop + rSize/2],
-        [300, 460],
-	]);*/
+
 	
   function drawFlow(){
 	context.save();
@@ -80,21 +76,15 @@
     
     // paths
     c.draw(context);
-	
-    
+
 	context.strokeStyle="rgb(255,0,0)";
     context.lineWidth="1";
-	context.fillStyle = "rgb(255,150,150)";
+	context.fillStyle = "rgb(255,127,127)";
     
-   
 	// rectangle 1
     context.fillRect(r1Left - rSize/2, rTop - rSize/2, rSize, rSize);
-	context.strokeRect(r1Left - rSize/2, rTop - rSize/2, rSize, rSize);
-	
+	context.strokeRect(r1Left - rSize/2+1/2, rTop - rSize/2+1/2, rSize, rSize);
 
-	
-	
-	
 	context.restore();
   }
   
@@ -103,10 +93,9 @@
       rSize = bigHeart?rSize - 10: rSize + 10;
       bigHeart = !bigHeart;
   }
-    
-  
-  setInterval(changeHeartSize,500);
-  setInterval(drawFlow, 20);
+
+  setInterval(changeHeartSize,  500);
+  setInterval(drawFlow,         20);
 </script>
 </body>
 </html>
